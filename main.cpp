@@ -8,6 +8,7 @@
 
 #define WIDTH 1280
 #define HEIGHT 720
+#define FPS 60
 
 // Variables
 
@@ -24,7 +25,7 @@ int main() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_RESIZABLE, false);
+	glfwWindowHint(GLFW_RESIZABLE, true);
 
 	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Mini Golf", NULL, NULL);
 	if (window == NULL) {
@@ -46,25 +47,25 @@ int main() {
 	glViewport(0, 0, WIDTH, HEIGHT);
 
 	while (!glfwWindowShouldClose(window)) {
-		// -- 60 FPS --
-		while (glfwGetTime() < lastFrame + 1.0 / 60) {
-			Sleep(0.05);
+		// -- FPS Limiter -- //
+		while (glfwGetTime() < lastFrame + 1.0 / FPS) {
+			Sleep(0.01);
 		}
 
-		// -- Delta time --
+		// -- Delta time -- //
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		// -- User input --
+		// -- User input -- //
 
-		// -- Physics --
+		// -- Physics -- //
 
-		// -- Render --
+		// -- Render -- //
 		glClearColor(0.1f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// -- Events + Buffer --
+		// -- Events + Buffer -- //
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
