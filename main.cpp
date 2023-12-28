@@ -1,13 +1,18 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/vec3.hpp>
 
 #include <iostream>
 #include <Windows.h>
 
+#include "shader.h"
+#include "font_renderer.h"
+#include "ressource_manager.h"
+
 // Settings
 
-#define WIDTH 1280
-#define HEIGHT 720
+#define DEFAULT_WIDTH 1280
+#define DEFAULT_HEIGHT 720
 #define FPS 60
 
 // Variables
@@ -18,6 +23,8 @@ float lastFrame = 0.0f;
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
+FontRenderer* poppins = nullptr;
+
 int main() {
 	// Init
 
@@ -27,7 +34,7 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, true);
 
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Mini Golf", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(DEFAULT_WIDTH, DEFAULT_HEIGHT, "Mini Golf", NULL, NULL);
 	if (window == NULL) {
 		std::cout << "Failed to create a window" << std::endl;
 		glfwTerminate();
@@ -44,7 +51,11 @@ int main() {
 	}
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glViewport(0, 0, WIDTH, HEIGHT);
+	glViewport(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+
+	// Test
+	Shader* shad = RessourceManager::loadShader("fontShader", "shaders/fontVertex.vs", "shaders/fontFragment.fs");
+	poppins = new FontRenderer(shad, "fonts/Poppins-Regular.ttf", DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
 	while (!glfwWindowShouldClose(window)) {
 		// -- FPS Limiter -- //
@@ -64,6 +75,9 @@ int main() {
 		// -- Render -- //
 		glClearColor(0.1f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		poppins->renderText("This is simple text", 25.0f, 25.0f, 1.0f, glm::vec3(0.5f, 0.8f, 0.2f));
+		poppins->renderText("KiwisDev", 540.0f, 570.0f, 0.5f, glm::vec3(0.3f, 0.7f, 0.9f));
 
 		// -- Events + Buffer -- //
 		glfwSwapBuffers(window);
@@ -98,4 +112,5 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
+	poppins->resize(width, height);
 }
