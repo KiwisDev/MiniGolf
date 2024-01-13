@@ -21,7 +21,7 @@ FontRenderer::FontRenderer(Shader* s, const char* font_path, int width, int heig
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-	for (int i = 0; i < 128; i++) {
+	for (int i = 32; i < 256; i++) {
 		if (FT_Load_Char(face, i, FT_LOAD_RENDER)) {
 			std::cout << "ERROR::FREETYPE: Failed to load Glyph" << "\n -- --------------------------------------------------- -- " << std::endl;
 			continue;
