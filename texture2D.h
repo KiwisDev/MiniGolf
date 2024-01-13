@@ -3,8 +3,6 @@
 
 #include <glad/glad.h>
 
-#include <iostream>
-
 class Texture2D {
 private:
 	int width, height, nbChannels;
@@ -40,5 +38,14 @@ public:
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	};
+
+	int getWidht() {
+		return width;
+	}
+
+	int getHeight() {
+		return height;
+	}
 };
+
 #endif

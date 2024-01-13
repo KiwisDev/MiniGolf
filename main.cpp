@@ -55,6 +55,10 @@ int main() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glViewport(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
+	// Init font
+	Shader* font_shader = RessourceManager::loadShader("font_shader", "shaders/fontVertex.vs", "shaders/fontFragment.fs");
+	poppins = new FontRenderer(font_shader, "fonts/Poppins-Regular.ttf", DEFAULT_WIDTH, DEFAULT_HEIGHT);
+
 	while (!glfwWindowShouldClose(window)) {
 		// -- FPS Limiter -- //
 		while (glfwGetTime() < lastFrame + 1.0 / FPS) {
@@ -73,6 +77,9 @@ int main() {
 		// -- Render -- //
 		glClearColor(0.1f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		// Render FPS
+		poppins->renderText(std::to_string((int) (1 / deltaTime)), 0, 0, 1, glm::vec3(255));
 
 		// -- Events + Buffer -- //
 		glfwSwapBuffers(window);
@@ -107,4 +114,5 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
+	poppins->resize(width, height);
 }
