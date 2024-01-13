@@ -40,6 +40,7 @@ int main() {
 		glfwTerminate();
 		return  -1;
 	}
+	glfwSetWindowAspectRatio(window, 16, 9);
 	glfwMakeContextCurrent(window);
 	glfwSetKeyCallback(window, key_callback);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
