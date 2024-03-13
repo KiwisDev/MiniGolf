@@ -62,7 +62,7 @@ int main() {
 	while (!glfwWindowShouldClose(window)) {
 		// -- FPS Limiter -- //
 		while (glfwGetTime() < lastFrame + 1.0 / FPS) {
-			Sleep(0.01);
+			Sleep((lastFrame + 1.0 / FPS) - glfwGetTime());
 		}
 
 		// -- Delta time -- //
@@ -110,6 +110,23 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	}
 
 	// -- Game related -- //
+
+	if (key == GLFW_KEY_F11 && action == GLFW_PRESS) {
+		if (glfwGetWindowMonitor(window) == NULL) {
+			int monitor_response = 0;
+			GLFWmonitor* monitor = *(glfwGetMonitors(&monitor_response));
+			const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
+			assert(monitor_response != 0);
+
+			glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+			poppins->resize(mode->width, mode->height);
+		}
+		else {
+			glfwSetWindowMonitor(window, NULL, 0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT, 0);
+			poppins->resize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		}
+	}
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
