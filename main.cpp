@@ -23,8 +23,6 @@ float lastFrame = 0.0f;
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-FontRenderer* poppins = nullptr;
-
 int main() {
 	// Init
 
@@ -57,7 +55,7 @@ int main() {
 
 	// Init font
 	Shader* font_shader = RessourceManager::loadShader("font_shader", "shaders/fontVertex.vs", "shaders/fontFragment.fs");
-	poppins = new FontRenderer(font_shader, "fonts/Poppins-Regular.ttf", DEFAULT_WIDTH, DEFAULT_HEIGHT);
+	FontRenderer* poppins = RessourceManager::loadFont("poppins", font_shader, "fonts/Poppins-Regular.ttf", DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
 	while (!glfwWindowShouldClose(window)) {
 		// -- FPS Limiter -- //
@@ -87,10 +85,6 @@ int main() {
 	}
 
 	glfwTerminate();
-
-	// -- Deletes -- //
-
-	delete poppins;
 
 	return 0;
 }
@@ -124,16 +118,16 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			assert(monitor_response != 0);
 
 			glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
-			poppins->resize(mode->width, mode->height);
+			RessourceManager::resizeFonts(mode->width, mode->height);
 		}
 		else {
 			glfwSetWindowMonitor(window, NULL, 0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT, 0);
-			poppins->resize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+			RessourceManager::resizeFonts(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		}
 	}
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
-	poppins->resize(width, height);
+	RessourceManager::resizeFonts(width, height);
 }

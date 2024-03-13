@@ -5,6 +5,7 @@
 
 std::map<std::string, Shader> RessourceManager::shaders;
 std::map<std::string, Texture2D> RessourceManager::textures;
+std::map<std::string, FontRenderer> RessourceManager::fonts;
 
 Shader* RessourceManager::loadShader(std::string name, const char* vertexPath, const char* fragmentPath) {
     std::string vertexCode;
@@ -70,4 +71,10 @@ Texture2D* RessourceManager::loadTexture(std::string name, const char* path, boo
     textures.insert(std::pair<std::string, Texture2D>(name, Texture2D(width, height, nbChannels, texture)));
 
     return &textures.at(name);
+}
+
+FontRenderer* RessourceManager::loadFont(std::string name, Shader* s, const char* font_path, int width, int height) {
+    fonts.insert(std::pair<std::string, FontRenderer>(name, FontRenderer(s, font_path, width, height)));
+
+    return &fonts.at(name);
 }
