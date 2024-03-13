@@ -88,6 +88,10 @@ int main() {
 
 	glfwTerminate();
 
+	// -- Deletes -- //
+
+	delete poppins;
+
 	return 0;
 }
 

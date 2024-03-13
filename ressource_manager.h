@@ -29,8 +29,6 @@ public:
 	static Texture2D* getTexture(std::string name) {
 		return &textures.at(name);
 	}
-
-	static void clear();
 };
 
 #endif

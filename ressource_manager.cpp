@@ -71,4 +71,3 @@ Texture2D* RessourceManager::loadTexture(std::string name, const char* path, boo
 
     return &textures.at(name);
 }
-
